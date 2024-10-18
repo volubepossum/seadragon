@@ -1,2 +1,5 @@
 .venv
 .mediamtx.yml.swp
+camera_pipe
+mediamtx
+__pycache__
