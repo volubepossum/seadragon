@@ -64,8 +64,8 @@ source /opt/ros/rolling/setup.bash
 # Install ROS dependencies
 sudo apt install -y ros-rolling-rqt
 
-mkdir -p ~/ros_ws/
-cd ~/ros_ws/
+mkdir -p ~/camera_ws/
+cd ~/camera_ws/
 git clone https://github.com/christianrauch/camera_ros.git src/camera_ros
 rosdep install --from-paths src --ignore-src --skip-keys=libcamera
 colcon build
