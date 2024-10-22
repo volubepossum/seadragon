@@ -16,7 +16,7 @@ alpha = 1  # Contrast control (1.0-3.0 or as needed)
 beta = 0     # Brightness control (optional, range -100 to 100)
 
 # Define the distance between camera and laser in meters
-rho = 0.08
+rho = 0.083
 
 # Define the angle between the laser and the camera (in degrees)
 angle1 = 75  # Example angle, adjust based on your setup
@@ -34,9 +34,9 @@ class ImageConverter(Node):
         self.bridge = CvBridge()
         self.cv_image = None
         self.processed_frame = None
-        self.processed_frame_topic = '/processed_image'
-        self.distance = None
-        self.publisher_ = None
+        self.processed_frame_pub = self.create_publisher(Image, 'processed_image', 10)
+        self.distance = Float32()
+        self.distance_pub = self.create_publisher(Float32, 'distance', 10)
         self.subscription = self.create_subscription(
             Image,
             '/camera/image_raw',  # Replace with your image topic
@@ -49,17 +49,12 @@ class ImageConverter(Node):
         except CvBridgeError as e:
             self.get_logger().error(f'Error converting image: {e}')
         # Process the image
-        self.distance, self.processed_frame = self.process_image(self.cv_image)
+        self.distance.data, self.processed_frame = self.process_image(self.cv_image)
         
         # Publish the processed image
-        # self.publisher_ = self.create_publisher(Image, 'processed_image', 10)
-        # processed_image_msg = self.bridge.cv2_to_imgmsg(self.processed_frame, "bgr8")
-        #self.publisher_.publish(processed_image_msg)
+        self.processed_frame_pub.publish(self.bridge.cv2_to_imgmsg(self.processed_frame, "bgr8"))
         # Publish the distance
-        self.publisher_ = self.create_publisher(Float32, 'distance', 10)
-        distance_msg = Float32()
-        distance_msg.data = self.distance
-        self.publisher_.publish(distance_msg)
+        self.distance_pub.publish(self.distance)
 
     def process_image(self, frame):
         # Capture frame-by-frame
