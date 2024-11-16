@@ -1,0 +1,74 @@
+[0.013s] Invoking command in '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/rolling DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PS1=(.venv) VIRTUAL_ENV_PROMPT=(.venv) /usr/bin/cmake /home/seapi/Documents/seadragon/imu_ws -DCMAKE_INSTALL_PREFIX=/home/seapi/Documents/seadragon/imu_ws/install/tm_imu
+[0.119s] -- The C compiler identification is GNU 13.2.0
+[0.225s] -- The CXX compiler identification is GNU 13.2.0
+[0.253s] -- Detecting C compiler ABI info
+[0.424s] -- Detecting C compiler ABI info - done
+[0.439s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.439s] -- Detecting C compile features
+[0.440s] -- Detecting C compile features - done
+[0.454s] -- Detecting CXX compiler ABI info
+[0.640s] -- Detecting CXX compiler ABI info - done
+[0.656s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.657s] -- Detecting CXX compile features
+[0.657s] -- Detecting CXX compile features - done
+[0.661s] -- Found ament_cmake: 2.7.0 (/opt/ros/rolling/share/ament_cmake/cmake)
+[0.834s] -- Found Python3: /home/seapi/Documents/seadragon/.venv/bin/python3 (found version "3.12.3") found components: Interpreter 
+[0.991s] -- Found rclcpp: 28.3.3 (/opt/ros/rolling/share/rclcpp/cmake)
+[1.041s] -- Found rosidl_generator_c: 4.8.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)
+[1.060s] -- Found rosidl_generator_cpp: 4.8.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)
+[1.081s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[1.106s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[1.208s] -- Found rmw_implementation_cmake: 7.4.3 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)
+[1.212s] -- Found rmw_fastrtps_cpp: 9.0.1 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)
+[1.342s] -- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.13")  
+[1.369s] -- Found FastRTPS: /opt/ros/rolling/include (Required is at least version "2.13") 
+[1.405s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[1.500s] -- Found std_msgs: 5.4.1 (/opt/ros/rolling/share/std_msgs/cmake)
+[1.520s] -- Found sensor_msgs: 5.4.1 (/opt/ros/rolling/share/sensor_msgs/cmake)
+[1.573s] -- Found tf2: 0.38.2 (/opt/ros/rolling/share/tf2/cmake)
+[1.580s] -- Found tf2_ros: 0.38.2 (/opt/ros/rolling/share/tf2_ros/cmake)
+[1.952s] -- Configuring done (1.9s)
+[1.974s] -- Generating done (0.0s)
+[1.977s] -- Build files have been written to: /home/seapi/Documents/seadragon/imu_ws/build/tm_imu
+[1.999s] Invoked command in '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/rolling DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PS1=(.venv) VIRTUAL_ENV_PROMPT=(.venv) /usr/bin/cmake /home/seapi/Documents/seadragon/imu_ws -DCMAKE_INSTALL_PREFIX=/home/seapi/Documents/seadragon/imu_ws/install/tm_imu
+[2.002s] Invoking command in '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/rolling DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PS1=(.venv) VIRTUAL_ENV_PROMPT=(.venv) /usr/bin/cmake --build /home/seapi/Documents/seadragon/imu_ws/build/tm_imu -- -j4 -l4
+[2.097s] [ 66%] [32mBuilding CXX object CMakeFiles/transducer_m_imu.dir/src/tm_imu_node.cpp.o[0m
+[2.099s] [ 66%] [32mBuilding CXX object CMakeFiles/transducer_m_imu.dir/external/EasyProfile/EasyProfile.cpp.o[0m
+[2.100s] [ 66%] [32mBuilding CXX object CMakeFiles/transducer_m_imu.dir/external/serialib/serialib.cpp.o[0m
+[2.100s] [ 66%] [32mBuilding CXX object CMakeFiles/transducer_m_imu.dir/external/EasyProfile/EasyObjectDictionary.cpp.o[0m
+[2.216s] [ 83%] [32mBuilding CXX object CMakeFiles/transducer_m_imu.dir/external/EasyProfile/EasyProtocol.cpp.o[0m
+[2.675s] [01m[K/home/seapi/Documents/seadragon/imu_ws/external/serialib/serialib.cpp:[m[K In member function ‘[01m[Kint serialib::[01;32m[KreadStringNoTimeOut[m[K(char*, char, unsigned int)[m[K’:
+[2.675s] [01m[K/home/seapi/Documents/seadragon/imu_ws/external/serialib/serialib.cpp:576:21:[m[K [01;35m[Kwarning: [m[Kcomparison is always false due to limited range of data type [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wtype-limits-Wtype-limits]8;;[m[K]
+[2.676s]   576 |         if ([01;35m[KcharRead<0[m[K) return charRead;
+[2.676s]       |             [01;35m[K~~~~~~~~^~[m[K
+[2.676s] [01m[K/home/seapi/Documents/seadragon/imu_ws/external/serialib/serialib.cpp:[m[K In member function ‘[01m[Kint serialib::[01;32m[KreadString[m[K(char*, char, unsigned int, unsigned int)[m[K’:
+[2.676s] [01m[K/home/seapi/Documents/seadragon/imu_ws/external/serialib/serialib.cpp:639:25:[m[K [01;35m[Kwarning: [m[Kcomparison is always false due to limited range of data type [[01;35m[K]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wtype-limits-Wtype-limits]8;;[m[K]
+[2.676s]   639 |             if ([01;35m[KcharRead<0[m[K) return charRead;
+[2.677s]       |                 [01;35m[K~~~~~~~~^~[m[K
+[14.637s] [100%] [32m[1mLinking CXX executable transducer_m_imu[0m
+[15.630s] [100%] Built target transducer_m_imu
+[15.652s] Invoked command in '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/rolling DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PS1=(.venv) VIRTUAL_ENV_PROMPT=(.venv) /usr/bin/cmake --build /home/seapi/Documents/seadragon/imu_ws/build/tm_imu -- -j4 -l4
+[15.718s] Invoking command in '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/rolling DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PS1=(.venv) VIRTUAL_ENV_PROMPT=(.venv) /usr/bin/cmake --install /home/seapi/Documents/seadragon/imu_ws/build/tm_imu
+[15.734s] -- Install configuration: ""
+[15.734s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/lib/tm_imu/transducer_m_imu
+[15.739s] -- Set non-toolchain portion of runtime path of "/home/seapi/Documents/seadragon/imu_ws/install/tm_imu/lib/tm_imu/transducer_m_imu" to ""
+[15.739s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu//launch
+[15.739s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu//launch/imu.launch.py
+[15.739s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu//config
+[15.739s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu//config/params.yaml
+[15.740s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/ament_index/resource_index/package_run_dependencies/tm_imu
+[15.740s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/ament_index/resource_index/parent_prefix_path/tm_imu
+[15.740s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/environment/ament_prefix_path.sh
+[15.740s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/environment/ament_prefix_path.dsv
+[15.741s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/environment/path.sh
+[15.741s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/environment/path.dsv
+[15.741s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/local_setup.bash
+[15.741s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/local_setup.sh
+[15.741s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/local_setup.zsh
+[15.742s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/local_setup.dsv
+[15.742s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/package.dsv
+[15.742s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/ament_index/resource_index/packages/tm_imu
+[15.742s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/cmake/tm_imuConfig.cmake
+[15.742s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/cmake/tm_imuConfig-version.cmake
+[15.743s] -- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/package.xml
+[15.746s] Invoked command in '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu' returned '0': CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}:/opt/ros/rolling DEBUGINFOD_URLS=https://debuginfod.ubuntu.com PS1=(.venv) VIRTUAL_ENV_PROMPT=(.venv) /usr/bin/cmake --install /home/seapi/Documents/seadragon/imu_ws/build/tm_imu

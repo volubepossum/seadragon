@@ -1,0 +1,240 @@
+[0.000000] (-) TimerEvent: {}
+[0.000262] (tm_imu) JobQueued: {'identifier': 'tm_imu', 'dependencies': OrderedDict()}
+[0.000764] (tm_imu) JobStarted: {'identifier': 'tm_imu'}
+[0.011396] (tm_imu) JobProgress: {'identifier': 'tm_imu', 'progress': 'cmake'}
+[0.011803] (tm_imu) Command: {'cmd': ['/usr/bin/cmake', '/home/seapi/Documents/seadragon/imu_ws', '-DCMAKE_INSTALL_PREFIX=/home/seapi/Documents/seadragon/imu_ws/install/tm_imu'], 'cwd': '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'seapi', 'SSH_CLIENT': '192.168.0.100 50836 22', 'XDG_SESSION_TYPE': 'tty', 'GIT_ASKPASS': '/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/extensions/git/dist/askpass.sh', 'SHLVL': '3', 'LD_LIBRARY_PATH': '/home/seapi/camera_ws/install/camera_ros/lib:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/aarch64-linux-gnu:/opt/ros/rolling/opt/gz_math_vendor/lib:/opt/ros/rolling/opt/gz_utils_vendor/lib:/opt/ros/rolling/opt/gz_cmake_vendor/lib:/opt/ros/rolling/lib', 'BROWSER': '/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/bin/helpers/browser.sh', 'HOME': '/home/seapi', 'OLDPWD': '/home/seapi/Documents/seadragon', 'TERM_PROGRAM_VERSION': '1.95.1', 'VSCODE_IPC_HOOK_CLI': '/run/user/1002/vscode-ipc-b718a1f4-2a24-4ad8-a6c9-cc54f29b13c7.sock', 'ROS_PYTHON_VERSION': '3', 'VSCODE_GIT_ASKPASS_MAIN': '/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/extensions/git/dist/askpass-main.js', 'PS1': '(.venv)', 'VSCODE_GIT_ASKPASS_NODE': '/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/node', 'SSL_CERT_FILE': '/usr/lib/ssl/cert.pem', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1002/bus', 'COLORTERM': 'truecolor', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'COLCON_PREFIX_PATH': '/home/seapi/camera_ws/install:/home/seapi/Documents/seadragon/install', 'ROS_DISTRO': 'rolling', 'LOGNAME': 'seapi', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '10', 'PATH': '/home/seapi/Documents/seadragon/.venv/bin:/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/bin/remote-cli:/opt/ros/rolling/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'XDG_RUNTIME_DIR': '/run/user/1002', 'SSL_CERT_DIR': '/usr/lib/ssl/certs', 'LANG': 'en_US.UTF-8', 'VIRTUAL_ENV_PROMPT': '(.venv)', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'VSCODE_GIT_IPC_HANDLE': '/run/user/1002/vscode-git-516b512585.sock', 'TERM_PROGRAM': 'vscode', 'AMENT_PREFIX_PATH': '/home/seapi/camera_ws/install/camera_ros:/opt/ros/rolling', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'VIRTUAL_ENV': '/home/seapi/Documents/seadragon/.venv', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'PWD': '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '192.168.0.100 50836 192.168.0.103 22', 'XDG_DATA_DIRS': '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/opt/ros/rolling/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/home/seapi/camera_ws/install/camera_ros:/opt/ros/rolling/opt/gz_math_vendor:/opt/ros/rolling/opt/gz_utils_vendor:/opt/ros/rolling/opt/gz_cmake_vendor:/opt/ros/rolling'}), 'shell': False}
+[0.099714] (-) TimerEvent: {}
+[0.119958] (tm_imu) StdoutLine: {'line': b'-- The C compiler identification is GNU 13.2.0\n'}
+[0.199841] (-) TimerEvent: {}
+[0.226246] (tm_imu) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 13.2.0\n'}
+[0.254313] (tm_imu) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.299958] (-) TimerEvent: {}
+[0.400503] (-) TimerEvent: {}
+[0.424553] (tm_imu) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.439649] (tm_imu) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.440079] (tm_imu) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.440681] (tm_imu) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.455314] (tm_imu) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.500580] (-) TimerEvent: {}
+[0.601034] (-) TimerEvent: {}
+[0.640926] (tm_imu) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.657379] (tm_imu) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.657754] (tm_imu) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.658421] (tm_imu) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.661736] (tm_imu) StdoutLine: {'line': b'-- Found ament_cmake: 2.7.0 (/opt/ros/rolling/share/ament_cmake/cmake)\n'}
+[0.701193] (-) TimerEvent: {}
+[0.801578] (-) TimerEvent: {}
+[0.834882] (tm_imu) StdoutLine: {'line': b'-- Found Python3: /home/seapi/Documents/seadragon/.venv/bin/python3 (found version "3.12.3") found components: Interpreter \n'}
+[0.901706] (-) TimerEvent: {}
+[0.991593] (tm_imu) StdoutLine: {'line': b'-- Found rclcpp: 28.3.3 (/opt/ros/rolling/share/rclcpp/cmake)\n'}
+[1.001793] (-) TimerEvent: {}
+[1.042054] (tm_imu) StdoutLine: {'line': b'-- Found rosidl_generator_c: 4.8.1 (/opt/ros/rolling/share/rosidl_generator_c/cmake)\n'}
+[1.060723] (tm_imu) StdoutLine: {'line': b'-- Found rosidl_generator_cpp: 4.8.1 (/opt/ros/rolling/share/rosidl_generator_cpp/cmake)\n'}
+[1.082218] (tm_imu) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c\n'}
+[1.101895] (-) TimerEvent: {}
+[1.107139] (tm_imu) StdoutLine: {'line': b'-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp\n'}
+[1.202006] (-) TimerEvent: {}
+[1.209168] (tm_imu) StdoutLine: {'line': b'-- Found rmw_implementation_cmake: 7.4.3 (/opt/ros/rolling/share/rmw_implementation_cmake/cmake)\n'}
+[1.212978] (tm_imu) StdoutLine: {'line': b'-- Found rmw_fastrtps_cpp: 9.0.1 (/opt/ros/rolling/share/rmw_fastrtps_cpp/cmake)\n'}
+[1.302128] (-) TimerEvent: {}
+[1.342618] (tm_imu) StdoutLine: {'line': b'-- Found OpenSSL: /usr/lib/aarch64-linux-gnu/libcrypto.so (found version "3.0.13")  \n'}
+[1.369835] (tm_imu) StdoutLine: {'line': b'-- Found FastRTPS: /opt/ros/rolling/include (Required is at least version "2.13") \n'}
+[1.402248] (-) TimerEvent: {}
+[1.406231] (tm_imu) StdoutLine: {'line': b"-- Using RMW implementation 'rmw_fastrtps_cpp' as default\n"}
+[1.501313] (tm_imu) StdoutLine: {'line': b'-- Found std_msgs: 5.4.1 (/opt/ros/rolling/share/std_msgs/cmake)\n'}
+[1.502312] (-) TimerEvent: {}
+[1.520929] (tm_imu) StdoutLine: {'line': b'-- Found sensor_msgs: 5.4.1 (/opt/ros/rolling/share/sensor_msgs/cmake)\n'}
+[1.573628] (tm_imu) StdoutLine: {'line': b'-- Found tf2: 0.38.2 (/opt/ros/rolling/share/tf2/cmake)\n'}
+[1.580591] (tm_imu) StdoutLine: {'line': b'-- Found tf2_ros: 0.38.2 (/opt/ros/rolling/share/tf2_ros/cmake)\n'}
+[1.602396] (-) TimerEvent: {}
+[1.702689] (-) TimerEvent: {}
+[1.803015] (-) TimerEvent: {}
+[1.903326] (-) TimerEvent: {}
+[1.952419] (tm_imu) StdoutLine: {'line': b'-- Configuring done (1.9s)\n'}
+[1.974702] (tm_imu) StdoutLine: {'line': b'-- Generating done (0.0s)\n'}
+[1.977861] (tm_imu) StdoutLine: {'line': b'-- Build files have been written to: /home/seapi/Documents/seadragon/imu_ws/build/tm_imu\n'}
+[1.999883] (tm_imu) CommandEnded: {'returncode': 0}
+[2.000735] (tm_imu) JobProgress: {'identifier': 'tm_imu', 'progress': 'build'}
+[2.001508] (tm_imu) Command: {'cmd': ['/usr/bin/cmake', '--build', '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu', '--', '-j4', '-l4'], 'cwd': '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'seapi', 'SSH_CLIENT': '192.168.0.100 50836 22', 'XDG_SESSION_TYPE': 'tty', 'GIT_ASKPASS': '/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/extensions/git/dist/askpass.sh', 'SHLVL': '3', 'LD_LIBRARY_PATH': '/home/seapi/camera_ws/install/camera_ros/lib:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/aarch64-linux-gnu:/opt/ros/rolling/opt/gz_math_vendor/lib:/opt/ros/rolling/opt/gz_utils_vendor/lib:/opt/ros/rolling/opt/gz_cmake_vendor/lib:/opt/ros/rolling/lib', 'BROWSER': '/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/bin/helpers/browser.sh', 'HOME': '/home/seapi', 'OLDPWD': '/home/seapi/Documents/seadragon', 'TERM_PROGRAM_VERSION': '1.95.1', 'VSCODE_IPC_HOOK_CLI': '/run/user/1002/vscode-ipc-b718a1f4-2a24-4ad8-a6c9-cc54f29b13c7.sock', 'ROS_PYTHON_VERSION': '3', 'VSCODE_GIT_ASKPASS_MAIN': '/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/extensions/git/dist/askpass-main.js', 'PS1': '(.venv)', 'VSCODE_GIT_ASKPASS_NODE': '/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/node', 'SSL_CERT_FILE': '/usr/lib/ssl/cert.pem', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1002/bus', 'COLORTERM': 'truecolor', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'COLCON_PREFIX_PATH': '/home/seapi/camera_ws/install:/home/seapi/Documents/seadragon/install', 'ROS_DISTRO': 'rolling', 'LOGNAME': 'seapi', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '10', 'PATH': '/home/seapi/Documents/seadragon/.venv/bin:/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/bin/remote-cli:/opt/ros/rolling/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'XDG_RUNTIME_DIR': '/run/user/1002', 'SSL_CERT_DIR': '/usr/lib/ssl/certs', 'LANG': 'en_US.UTF-8', 'VIRTUAL_ENV_PROMPT': '(.venv)', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'VSCODE_GIT_IPC_HANDLE': '/run/user/1002/vscode-git-516b512585.sock', 'TERM_PROGRAM': 'vscode', 'AMENT_PREFIX_PATH': '/home/seapi/camera_ws/install/camera_ros:/opt/ros/rolling', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'VIRTUAL_ENV': '/home/seapi/Documents/seadragon/.venv', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'PWD': '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '192.168.0.100 50836 192.168.0.103 22', 'XDG_DATA_DIRS': '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/opt/ros/rolling/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/home/seapi/camera_ws/install/camera_ros:/opt/ros/rolling/opt/gz_math_vendor:/opt/ros/rolling/opt/gz_utils_vendor:/opt/ros/rolling/opt/gz_cmake_vendor:/opt/ros/rolling'}), 'shell': False}
+[2.003516] (-) TimerEvent: {}
+[2.097705] (tm_imu) StdoutLine: {'line': b'[ 66%] \x1b[32mBuilding CXX object CMakeFiles/transducer_m_imu.dir/src/tm_imu_node.cpp.o\x1b[0m\n'}
+[2.100326] (tm_imu) StdoutLine: {'line': b'[ 66%] \x1b[32mBuilding CXX object CMakeFiles/transducer_m_imu.dir/external/EasyProfile/EasyProfile.cpp.o\x1b[0m\n'}
+[2.100661] (tm_imu) StdoutLine: {'line': b'[ 66%] \x1b[32mBuilding CXX object CMakeFiles/transducer_m_imu.dir/external/serialib/serialib.cpp.o\x1b[0m\n'}
+[2.100818] (tm_imu) StdoutLine: {'line': b'[ 66%] \x1b[32mBuilding CXX object CMakeFiles/transducer_m_imu.dir/external/EasyProfile/EasyObjectDictionary.cpp.o\x1b[0m\n'}
+[2.105286] (-) TimerEvent: {}
+[2.207790] (-) TimerEvent: {}
+[2.216939] (tm_imu) StdoutLine: {'line': b'[ 83%] \x1b[32mBuilding CXX object CMakeFiles/transducer_m_imu.dir/external/EasyProfile/EasyProtocol.cpp.o\x1b[0m\n'}
+[2.307923] (-) TimerEvent: {}
+[2.408348] (-) TimerEvent: {}
+[2.508774] (-) TimerEvent: {}
+[2.609156] (-) TimerEvent: {}
+[2.675995] (tm_imu) StderrLine: {'line': b'\x1b[01m\x1b[K/home/seapi/Documents/seadragon/imu_ws/external/serialib/serialib.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kint serialib::\x1b[01;32m\x1b[KreadStringNoTimeOut\x1b[m\x1b[K(char*, char, unsigned int)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[2.676344] (tm_imu) StderrLine: {'line': b'\x1b[01m\x1b[K/home/seapi/Documents/seadragon/imu_ws/external/serialib/serialib.cpp:576:21:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wtype-limits\x07-Wtype-limits\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[2.676548] (tm_imu) StderrLine: {'line': b'  576 |         if (\x1b[01;35m\x1b[KcharRead<0\x1b[m\x1b[K) return charRead;\n'}
+[2.677216] (tm_imu) StderrLine: {'line': b'      |             \x1b[01;35m\x1b[K~~~~~~~~^~\x1b[m\x1b[K\n'}
+[2.677337] (tm_imu) StderrLine: {'line': b'\x1b[01m\x1b[K/home/seapi/Documents/seadragon/imu_ws/external/serialib/serialib.cpp:\x1b[m\x1b[K In member function \xe2\x80\x98\x1b[01m\x1b[Kint serialib::\x1b[01;32m\x1b[KreadString\x1b[m\x1b[K(char*, char, unsigned int, unsigned int)\x1b[m\x1b[K\xe2\x80\x99:\n'}
+[2.677423] (tm_imu) StderrLine: {'line': b'\x1b[01m\x1b[K/home/seapi/Documents/seadragon/imu_ws/external/serialib/serialib.cpp:639:25:\x1b[m\x1b[K \x1b[01;35m\x1b[Kwarning: \x1b[m\x1b[Kcomparison is always false due to limited range of data type [\x1b[01;35m\x1b[K\x1b]8;;https://gcc.gnu.org/onlinedocs/gcc/Warning-Options.html#index-Wtype-limits\x07-Wtype-limits\x1b]8;;\x07\x1b[m\x1b[K]\n'}
+[2.677510] (tm_imu) StderrLine: {'line': b'  639 |             if (\x1b[01;35m\x1b[KcharRead<0\x1b[m\x1b[K) return charRead;\n'}
+[2.677607] (tm_imu) StderrLine: {'line': b'      |                 \x1b[01;35m\x1b[K~~~~~~~~^~\x1b[m\x1b[K\n'}
+[2.709273] (-) TimerEvent: {}
+[2.809654] (-) TimerEvent: {}
+[2.910027] (-) TimerEvent: {}
+[3.010395] (-) TimerEvent: {}
+[3.110747] (-) TimerEvent: {}
+[3.211101] (-) TimerEvent: {}
+[3.311446] (-) TimerEvent: {}
+[3.411769] (-) TimerEvent: {}
+[3.512184] (-) TimerEvent: {}
+[3.612653] (-) TimerEvent: {}
+[3.713053] (-) TimerEvent: {}
+[3.813450] (-) TimerEvent: {}
+[3.913838] (-) TimerEvent: {}
+[4.014201] (-) TimerEvent: {}
+[4.114561] (-) TimerEvent: {}
+[4.214937] (-) TimerEvent: {}
+[4.315292] (-) TimerEvent: {}
+[4.415654] (-) TimerEvent: {}
+[4.516023] (-) TimerEvent: {}
+[4.616406] (-) TimerEvent: {}
+[4.716774] (-) TimerEvent: {}
+[4.817134] (-) TimerEvent: {}
+[4.917496] (-) TimerEvent: {}
+[5.017875] (-) TimerEvent: {}
+[5.118244] (-) TimerEvent: {}
+[5.218618] (-) TimerEvent: {}
+[5.319005] (-) TimerEvent: {}
+[5.419344] (-) TimerEvent: {}
+[5.519719] (-) TimerEvent: {}
+[5.620102] (-) TimerEvent: {}
+[5.720467] (-) TimerEvent: {}
+[5.820830] (-) TimerEvent: {}
+[5.921189] (-) TimerEvent: {}
+[6.021546] (-) TimerEvent: {}
+[6.121920] (-) TimerEvent: {}
+[6.222346] (-) TimerEvent: {}
+[6.322791] (-) TimerEvent: {}
+[6.423153] (-) TimerEvent: {}
+[6.523518] (-) TimerEvent: {}
+[6.623897] (-) TimerEvent: {}
+[6.724261] (-) TimerEvent: {}
+[6.824620] (-) TimerEvent: {}
+[6.924993] (-) TimerEvent: {}
+[7.025346] (-) TimerEvent: {}
+[7.125714] (-) TimerEvent: {}
+[7.226068] (-) TimerEvent: {}
+[7.326425] (-) TimerEvent: {}
+[7.426785] (-) TimerEvent: {}
+[7.527137] (-) TimerEvent: {}
+[7.627513] (-) TimerEvent: {}
+[7.727897] (-) TimerEvent: {}
+[7.828249] (-) TimerEvent: {}
+[7.928604] (-) TimerEvent: {}
+[8.028984] (-) TimerEvent: {}
+[8.129347] (-) TimerEvent: {}
+[8.229706] (-) TimerEvent: {}
+[8.330044] (-) TimerEvent: {}
+[8.430922] (-) TimerEvent: {}
+[8.531280] (-) TimerEvent: {}
+[8.631641] (-) TimerEvent: {}
+[8.732018] (-) TimerEvent: {}
+[8.832368] (-) TimerEvent: {}
+[8.932731] (-) TimerEvent: {}
+[9.033097] (-) TimerEvent: {}
+[9.133528] (-) TimerEvent: {}
+[9.233921] (-) TimerEvent: {}
+[9.334301] (-) TimerEvent: {}
+[9.434704] (-) TimerEvent: {}
+[9.535076] (-) TimerEvent: {}
+[9.635449] (-) TimerEvent: {}
+[9.735828] (-) TimerEvent: {}
+[9.836188] (-) TimerEvent: {}
+[9.936593] (-) TimerEvent: {}
+[10.036982] (-) TimerEvent: {}
+[10.137364] (-) TimerEvent: {}
+[10.237733] (-) TimerEvent: {}
+[10.338083] (-) TimerEvent: {}
+[10.438440] (-) TimerEvent: {}
+[10.538792] (-) TimerEvent: {}
+[10.639168] (-) TimerEvent: {}
+[10.739512] (-) TimerEvent: {}
+[10.839883] (-) TimerEvent: {}
+[10.940230] (-) TimerEvent: {}
+[11.040588] (-) TimerEvent: {}
+[11.140959] (-) TimerEvent: {}
+[11.241308] (-) TimerEvent: {}
+[11.341647] (-) TimerEvent: {}
+[11.442016] (-) TimerEvent: {}
+[11.542365] (-) TimerEvent: {}
+[11.642739] (-) TimerEvent: {}
+[11.743092] (-) TimerEvent: {}
+[11.843451] (-) TimerEvent: {}
+[11.943832] (-) TimerEvent: {}
+[12.044179] (-) TimerEvent: {}
+[12.144540] (-) TimerEvent: {}
+[12.244902] (-) TimerEvent: {}
+[12.345236] (-) TimerEvent: {}
+[12.445553] (-) TimerEvent: {}
+[12.545886] (-) TimerEvent: {}
+[12.646189] (-) TimerEvent: {}
+[12.746500] (-) TimerEvent: {}
+[12.846852] (-) TimerEvent: {}
+[12.947151] (-) TimerEvent: {}
+[13.047458] (-) TimerEvent: {}
+[13.147801] (-) TimerEvent: {}
+[13.248106] (-) TimerEvent: {}
+[13.348399] (-) TimerEvent: {}
+[13.448717] (-) TimerEvent: {}
+[13.549085] (-) TimerEvent: {}
+[13.649446] (-) TimerEvent: {}
+[13.749807] (-) TimerEvent: {}
+[13.850139] (-) TimerEvent: {}
+[13.950478] (-) TimerEvent: {}
+[14.050902] (-) TimerEvent: {}
+[14.151567] (-) TimerEvent: {}
+[14.251968] (-) TimerEvent: {}
+[14.352356] (-) TimerEvent: {}
+[14.452806] (-) TimerEvent: {}
+[14.553381] (-) TimerEvent: {}
+[14.637469] (tm_imu) StdoutLine: {'line': b'[100%] \x1b[32m\x1b[1mLinking CXX executable transducer_m_imu\x1b[0m\n'}
+[14.653485] (-) TimerEvent: {}
+[14.753893] (-) TimerEvent: {}
+[14.854272] (-) TimerEvent: {}
+[14.954694] (-) TimerEvent: {}
+[15.055196] (-) TimerEvent: {}
+[15.155757] (-) TimerEvent: {}
+[15.256195] (-) TimerEvent: {}
+[15.356637] (-) TimerEvent: {}
+[15.457081] (-) TimerEvent: {}
+[15.557526] (-) TimerEvent: {}
+[15.631135] (tm_imu) StdoutLine: {'line': b'[100%] Built target transducer_m_imu\n'}
+[15.652975] (tm_imu) CommandEnded: {'returncode': 0}
+[15.657607] (-) TimerEvent: {}
+[15.701516] (tm_imu) JobProgress: {'identifier': 'tm_imu', 'progress': 'install'}
+[15.718153] (tm_imu) Command: {'cmd': ['/usr/bin/cmake', '--install', '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu'], 'cwd': '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu', 'env': OrderedDict({'LESSOPEN': '| /usr/bin/lesspipe %s', 'USER': 'seapi', 'SSH_CLIENT': '192.168.0.100 50836 22', 'XDG_SESSION_TYPE': 'tty', 'GIT_ASKPASS': '/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/extensions/git/dist/askpass.sh', 'SHLVL': '3', 'LD_LIBRARY_PATH': '/home/seapi/camera_ws/install/camera_ros/lib:/opt/ros/rolling/opt/rviz_ogre_vendor/lib:/opt/ros/rolling/lib/aarch64-linux-gnu:/opt/ros/rolling/opt/gz_math_vendor/lib:/opt/ros/rolling/opt/gz_utils_vendor/lib:/opt/ros/rolling/opt/gz_cmake_vendor/lib:/opt/ros/rolling/lib', 'BROWSER': '/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/bin/helpers/browser.sh', 'HOME': '/home/seapi', 'OLDPWD': '/home/seapi/Documents/seadragon', 'TERM_PROGRAM_VERSION': '1.95.1', 'VSCODE_IPC_HOOK_CLI': '/run/user/1002/vscode-ipc-b718a1f4-2a24-4ad8-a6c9-cc54f29b13c7.sock', 'ROS_PYTHON_VERSION': '3', 'VSCODE_GIT_ASKPASS_MAIN': '/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/extensions/git/dist/askpass-main.js', 'PS1': '(.venv)', 'VSCODE_GIT_ASKPASS_NODE': '/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/node', 'SSL_CERT_FILE': '/usr/lib/ssl/cert.pem', 'DBUS_SESSION_BUS_ADDRESS': 'unix:path=/run/user/1002/bus', 'COLORTERM': 'truecolor', 'DEBUGINFOD_URLS': 'https://debuginfod.ubuntu.com', 'COLCON_PREFIX_PATH': '/home/seapi/camera_ws/install:/home/seapi/Documents/seadragon/install', 'ROS_DISTRO': 'rolling', 'LOGNAME': 'seapi', '_': '/usr/bin/colcon', 'ROS_VERSION': '2', 'XDG_SESSION_CLASS': 'user', 'TERM': 'xterm-256color', 'XDG_SESSION_ID': '10', 'PATH': '/home/seapi/Documents/seadragon/.venv/bin:/home/seapi/.vscode-server/cli/servers/Stable-65edc4939843c90c34d61f4ce11704f09d3e5cb6/server/bin/remote-cli:/opt/ros/rolling/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin', 'XDG_RUNTIME_DIR': '/run/user/1002', 'SSL_CERT_DIR': '/usr/lib/ssl/certs', 'LANG': 'en_US.UTF-8', 'VIRTUAL_ENV_PROMPT': '(.venv)', 'LS_COLORS': 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:', 'VSCODE_GIT_IPC_HANDLE': '/run/user/1002/vscode-git-516b512585.sock', 'TERM_PROGRAM': 'vscode', 'AMENT_PREFIX_PATH': '/home/seapi/camera_ws/install/camera_ros:/opt/ros/rolling', 'SHELL': '/bin/bash', 'LESSCLOSE': '/usr/bin/lesspipe %s %s', 'VIRTUAL_ENV': '/home/seapi/Documents/seadragon/.venv', 'ROS_AUTOMATIC_DISCOVERY_RANGE': 'SUBNET', 'VSCODE_GIT_ASKPASS_EXTRA_ARGS': '', 'PWD': '/home/seapi/Documents/seadragon/imu_ws/build/tm_imu', 'LC_ALL': 'en_US.UTF-8', 'SSH_CONNECTION': '192.168.0.100 50836 192.168.0.103 22', 'XDG_DATA_DIRS': '/usr/share/gnome:/usr/local/share:/usr/share:/var/lib/snapd/desktop', 'PYTHONPATH': '/opt/ros/rolling/lib/python3.12/site-packages', 'COLCON': '1', 'CMAKE_PREFIX_PATH': '/home/seapi/camera_ws/install/camera_ros:/opt/ros/rolling/opt/gz_math_vendor:/opt/ros/rolling/opt/gz_utils_vendor:/opt/ros/rolling/opt/gz_cmake_vendor:/opt/ros/rolling'}), 'shell': False}
+[15.734334] (tm_imu) StdoutLine: {'line': b'-- Install configuration: ""\n'}
+[15.734723] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/lib/tm_imu/transducer_m_imu\n'}
+[15.739625] (tm_imu) StdoutLine: {'line': b'-- Set non-toolchain portion of runtime path of "/home/seapi/Documents/seadragon/imu_ws/install/tm_imu/lib/tm_imu/transducer_m_imu" to ""\n'}
+[15.739932] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu//launch\n'}
+[15.740160] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu//launch/imu.launch.py\n'}
+[15.740368] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu//config\n'}
+[15.740484] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu//config/params.yaml\n'}
+[15.740878] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/ament_index/resource_index/package_run_dependencies/tm_imu\n'}
+[15.741106] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/ament_index/resource_index/parent_prefix_path/tm_imu\n'}
+[15.741324] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/environment/ament_prefix_path.sh\n'}
+[15.741520] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/environment/ament_prefix_path.dsv\n'}
+[15.741748] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/environment/path.sh\n'}
+[15.741936] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/environment/path.dsv\n'}
+[15.742115] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/local_setup.bash\n'}
+[15.742314] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/local_setup.sh\n'}
+[15.742521] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/local_setup.zsh\n'}
+[15.742722] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/local_setup.dsv\n'}
+[15.742914] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/package.dsv\n'}
+[15.743165] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/ament_index/resource_index/packages/tm_imu\n'}
+[15.743395] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/cmake/tm_imuConfig.cmake\n'}
+[15.743537] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/cmake/tm_imuConfig-version.cmake\n'}
+[15.743753] (tm_imu) StdoutLine: {'line': b'-- Installing: /home/seapi/Documents/seadragon/imu_ws/install/tm_imu/share/tm_imu/package.xml\n'}
+[15.747013] (tm_imu) CommandEnded: {'returncode': 0}
+[15.757957] (-) TimerEvent: {}
+[15.858302] (-) TimerEvent: {}
+[15.864923] (tm_imu) JobEnded: {'identifier': 'tm_imu', 'rc': 0}
+[15.866889] (-) EventReactorShutdown: {}

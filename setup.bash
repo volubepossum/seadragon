@@ -73,6 +73,13 @@ chmod +x ./install/setup.bash
 source ./install/setup.bash
 cd $DIR
 
+cd imu_ws
+rosdep install --from-paths src --ignore-src
+colcon build
+chmod +x ./install/setup.bash
+source ./install/setup.bash
+cd $DIR
+
 
 exit 0 # Exit the script cause no need for mediamtx anymore
 # Download the file from the link
