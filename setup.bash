@@ -74,10 +74,7 @@ source ./install/setup.bash
 cd $DIR
 
 cd imu_ws
-rosdep install --from-paths src --ignore-src
 colcon build
-chmod +x ./install/setup.bash
-source ./install/setup.bash
 cd $DIR
 
 
