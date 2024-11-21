@@ -7,3 +7,6 @@ imu_ws/build
 imu_ws/install
 imu_ws/log
 i2c_pwm_board
+motor_controller/build
+motor_controller/install
+motor_controller/log
