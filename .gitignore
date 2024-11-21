@@ -3,3 +3,7 @@
 camera_pipe
 mediamtx
 __pycache__
+imu_ws/build
+imu_ws/install
+imu_ws/log
+i2c_pwm_board
