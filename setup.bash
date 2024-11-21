@@ -17,7 +17,7 @@ sudo usermod -aG audio $USER # Add the user to the audio group
 
 # Install python3, python3-venv, and ROS Noetic
 sudo apt update
-sudo apt install -y python3 python3-venv python3-pip
+sudo apt install -y python3 python3-venv python3-pip libi2c-dev i2c-tools
 
 
 # Create a Python virtual environment and activate it
@@ -25,14 +25,13 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 # Install necessary Python packages
-pip install numpy opencv-python
+pip install numpy opencv-python colcon-common-extensions empy==3.3.4 lark
 
 
 
-# Install ROS Jazzy Jalisco
 locale  # check for UTF-8
 
-sudo apt update && sudo apt install locales
+sudo apt update && sudo apt install locales -y
 sudo locale-gen en_US en_US.UTF-8
 sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -77,6 +76,15 @@ cd imu_ws
 colcon build
 cd $DIR
 
+git clone --recursive https://github.com/vertueux/i2c_pwm_board.git
+cd i2c_pwm_board/scripts
+chmod +x install_dependencies.sh
+./install_dependencies.sh
+cd ..
+colcon build
+chmod +x ./install/setup.bash
+source install/setup.bash
+cd $DIR
 
 exit 0 # Exit the script cause no need for mediamtx anymore
 # Download the file from the link
