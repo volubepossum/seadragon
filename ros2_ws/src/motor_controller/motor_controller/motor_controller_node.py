@@ -1,25 +1,34 @@
+#!/usr/bin/env python3
+
 import rclpy
 from rclpy.node import Node
 import csv
-from std_msgs.msg import Float64
-
+from i2c_pwm_board_msgs.msg import ServoArray, Servo
+from motor_controller.msg import Motors
+import os
+import ament_index_python
 
 class MotorController(Node):
     def __init__(self):
         super().__init__('motor_controller')
 
         # Load the PWM-thrust mapping from the CSV file
-        self.declare_parameter('thrust_mapping', 'thrust_mapping.csv')
+        self.declare_parameter('thrust_mapping', 'config/thrust_mapping.csv')
         self.csv_file = self.get_parameter('thrust_mapping').get_parameter_value().string_value
+
+        # Get the absolute path of the CSV file relative to the install location
+        self.csv_file = os.path.join(
+            ament_index_python.get_package_share_directory('motor_controller'), self.csv_file)
+
         self.pwm_thrust_map = self.load_pwm_thrust_map(self.csv_file)
 
         # Create the subscription and publisher
         self.subscription = self.create_subscription(
-            Float64,
+            Motors,
             'motor_thrust',
             self.thrust_callback,
             10)
-        self.publisher = self.create_publisher(Float64, 'servos_absolute_1', 10)
+        self.publisher = self.create_publisher(ServoArray, 'servos_absolute_1', 10)
 
     def load_pwm_thrust_map(self, csv_file):
         pwm_thrust_map = {}
@@ -32,15 +41,13 @@ class MotorController(Node):
         return pwm_thrust_map
 
     def thrust_callback(self, msg):
-        required_thrusts = msg.data
-        pwm_values = [self.map_thrust_to_pwm(required_thrust) for required_thrust in required_thrusts]
-        self.publisher.msg.data = ServoArray()
-        servos=[Servo(servo=i, value=pwm_values[i]) for i in range(len(pwm_values))]
-        self.publisher.publish()
-
-    def map_thrust_to_pwm(self, thrust):
-        closest_thrust = min(self.pwm_thrust_map.keys(), key=lambda k: abs(k - thrust))
-        return int(round(self.pwm_thrust_map[closest_thrust]))
+        motors = msg.motors
+        for motor in motors:
+            # Find the closest thrust value in the map
+            closest_thrust = min(self.pwm_thrust_map.keys(), key=lambda k: abs(k - motor.thrust))
+            pwm = self.pwm_thrust_map[closest_thrust]
+            self.get_logger().info(f'Motor {motor.id} gets PWM value {pwm} for thrust {motor.thrust}')
+            self.publisher.publish(ServoArray(servos=[Servo(servo=motor.id, value=pwm)]))
 
 def main(args=None):
     rclpy.init(args=args)

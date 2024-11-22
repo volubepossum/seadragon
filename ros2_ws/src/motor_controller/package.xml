@@ -2,8 +2,8 @@
 <package format="3">
   <name>motor_controller</name>
   <version>0.0.0</version>
-  <description>The motor_controller package</description>
-  <maintainer email="your_email@example.com">Your Name</maintainer>
+  <description>The motor_controller package. Maps requested thrust to pwm values, inteded to work with the i2c_pwm_board package.</description>
+  <maintainer email="domj.roli@gmail.com">Volubepossum</maintainer>
   <license>Apache-2.0</license>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
