@@ -63,7 +63,21 @@ source /opt/ros/rolling/setup.bash
 # Install ROS dependencies
 sudo apt install -y ros-rolling-rqt
 
-vcs import src < ros.repos
+vcs import ros2_ws/src --input ros.repos --recursive
+
+cd ros2_ws/src/i2c_pwm_board/scripts
+chmod +x install_dependencies.sh
+./install_dependencies.sh
+cd $DIR
+
+cd ros2_ws/camera
+rosdep install --from-paths src --ignore-src --skip-keys=libcamera
+cd $DIR
+
+cd ros2_ws
+rm -rf build/ log/ install/
+colcon build
+cd $DIR
 
 
 # mkdir -p ~/camera_ws/
