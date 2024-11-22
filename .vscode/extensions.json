@@ -18,6 +18,7 @@
         "donjayamanne.python-environment-manager",
         "mechatroner.rainbow-csv",
         "tonybaloney.vscode-pets",
-        "driftasimov.waifuwu"
+        "driftasimov.waifuwu",
+        "ms-iot.vscode-ros"
     ]
 }
