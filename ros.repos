@@ -1,0 +1,8 @@
+repositories:
+    i2c_pwm_board:
+        type: git
+        url: https://github.com/vertueux/i2c_pwm_board.git
+        recursive: true
+    camera:
+        type: git
+        url: https://github.com/christianrauch/camera_ros.git

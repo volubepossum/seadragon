@@ -63,28 +63,31 @@ source /opt/ros/rolling/setup.bash
 # Install ROS dependencies
 sudo apt install -y ros-rolling-rqt
 
-mkdir -p ~/camera_ws/
-cd ~/camera_ws/
-git clone https://github.com/christianrauch/camera_ros.git src/camera_ros
-rosdep install --from-paths src --ignore-src --skip-keys=libcamera
-colcon build
-chmod +x ./install/setup.bash
-source ./install/setup.bash
-cd $DIR
+vcs import src < ros.repos
 
-cd imu_ws
-colcon build
-cd $DIR
 
-git clone --recursive https://github.com/vertueux/i2c_pwm_board.git
-cd i2c_pwm_board/scripts
-chmod +x install_dependencies.sh
-./install_dependencies.sh
-cd ..
-colcon build
-chmod +x ./install/setup.bash
-source install/setup.bash
-cd $DIR
+# mkdir -p ~/camera_ws/
+# cd ~/camera_ws/
+# git clone https://github.com/christianrauch/camera_ros.git src/camera_ros
+# rosdep install --from-paths src --ignore-src --skip-keys=libcamera
+# colcon build
+# chmod +x ./install/setup.bash
+# source ./install/setup.bash
+# cd $DIR
+
+# cd imu_ws
+# colcon build
+# cd $DIR
+
+# git clone --recursive https://github.com/vertueux/i2c_pwm_board.git
+# cd i2c_pwm_board/scripts
+# chmod +x install_dependencies.sh
+# ./install_dependencies.sh
+# cd ..
+# colcon build
+# chmod +x ./install/setup.bash
+# source install/setup.bash
+# cd $DIR
 
 exit 0 # Exit the script cause no need for mediamtx anymore
 # Download the file from the link

@@ -3,10 +3,8 @@
 camera_pipe
 mediamtx
 __pycache__
-imu_ws/build
-imu_ws/install
-imu_ws/log
-i2c_pwm_board
-motor_controller/build
-motor_controller/install
-motor_controller/log
+ros2_ws/build
+ros2_ws/install
+ros2_ws/log
+ros2_ws/src/i2c_pwm_board
+ros2_ws/src/camera

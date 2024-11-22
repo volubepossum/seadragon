@@ -12,7 +12,6 @@
         "twxs.cmake",
         "ms-vscode.cmake-tools",
         "github.copilot",
-        "github.copilot-chat",
         "esbenp.prettier-vscode",
         "ms-python.vscode-pylance",
         "donjayamanne.python-environment-manager",
