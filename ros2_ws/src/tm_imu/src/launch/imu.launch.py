@@ -16,7 +16,7 @@ def generate_launch_description():
 
     imu_node = Node(
         package="tm_imu",
-        node_executable="transducer_m_imu",
+        executable="transducer_m_imu",
         name="tm_imu",
         output="screen",
         parameters=[config],
