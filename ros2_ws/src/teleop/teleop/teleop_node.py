@@ -3,9 +3,8 @@
 import rclpy
 from rclpy.node import Node
 from motor_controller.msg import Motors, Motor
-import readchar
 import threading
-
+from inputs import get_key, devices
 
 class TeleopNode(Node):
     def __init__(self):
@@ -20,18 +19,15 @@ class TeleopNode(Node):
 
         # Initialize thrust values
         self.thrust_values = [0.0] * 5  # For 5 motors
-        self.forward_thrust = 10.0  # Ensure float
-        self.backward_thrust = -10.0  # Ensure float
+        self.forward_thrust = 10.0  
+        self.backward_thrust = -10.0
 
         # Define control keys
-        self.forward_keys = ["q", "w", "e", "r", "t"]
-        self.backward_keys = ["a", "s", "d", "f", "g"]
+        self.forward_keys = ["KEY_Q", "KEY_W", "KEY_E", "KEY_R", "KEY_T"]
+        self.backward_keys = ["KEY_A", "KEY_S", "KEY_D", "KEY_F", "KEY_G"]
 
         # Control flag
         self.running = True
-
-        # Timer for resetting thrust values
-        self.reset_timer = self.create_timer(0.1, self.reset_thrust_values)
 
         # Start keyboard reading thread
         self.keyboard_thread = threading.Thread(target=self.read_keyboard)
@@ -41,44 +37,37 @@ class TeleopNode(Node):
     def read_keyboard(self):
         while self.running:
             try:
-                key = readchar.readchar()
-                self.get_logger().info(f"Key pressed: {key}")
-                self.handle_key(key)
+                events = devices.keyboards[0].read()
+                for event in events:
+                    if event.ev_type == 'Key':
+                        self.get_logger().info(f"Key event: {event.ev_type} {event.code} {event.state}")
+                        self.handle_key(event.code, event.state)
             except Exception as e:
                 self.get_logger().error(f"Error reading keyboard: {e}")
 
-    def handle_key(self, key):
-        if key == "x":
+    def handle_key(self, key, state):
+        if key == "KEY_X" and state == 1:
             self.running = False
-        elif key in self.forward_keys:
+        elif key in self.forward_keys and state == 1:
             motor_index = self.forward_keys.index(key)
             self.thrust_values[motor_index] = self.forward_thrust
-        elif key in self.backward_keys:
+        elif key in self.backward_keys and state == 1:
             motor_index = self.backward_keys.index(key)
             self.thrust_values[motor_index] = self.backward_thrust
-        else:
-            return
 
         # Publish thrust values
         self.publish_thrust_values()
 
         # Reset the timer
         self.reset_timer.cancel()
-        self.reset_timer = self.create_timer(0.1, self.reset_thrust_values)
+        self.reset_timer = self.create_timer(0.5, self.reset_thrust_values)
 
     def publish_thrust_values(self):
         msg = Motors()
         msg.motors = [
-            Motor(id=i + 1, thrust=val)
-            for i, val in enumerate(self.thrust_values)
+            Motor(motor_id=i, thrust=val) for i, val in enumerate(self.thrust_values)
         ]
-        self.get_logger().info(f"Publishing thrust values: {self.thrust_values}")
-        self.publisher_.publish(msg)
-
-    def reset_thrust_values(self):
-        self.thrust_values = [0.0] * 5
-        self.publish_thrust_values()
-
+        self.publisher_.publish(msg)    
 
 def main(args=None):
     rclpy.init(args=args)
@@ -86,12 +75,11 @@ def main(args=None):
     try:
         rclpy.spin(node)
     except KeyboardInterrupt:
-        pass
+        rclpy.get_logger().info("Keyboard interrupt, shutting down node")
     finally:
         node.running = False
         node.destroy_node()
         rclpy.shutdown()
 
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
