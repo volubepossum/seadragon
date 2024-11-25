@@ -58,9 +58,6 @@ class TeleopNode(Node):
         # Publish thrust values
         self.publish_thrust_values()
 
-        # Reset the timer
-        self.reset_timer.cancel()
-        self.reset_timer = self.create_timer(0.5, self.reset_thrust_values)
 
     def publish_thrust_values(self):
         msg = Motors()
