@@ -6,7 +6,8 @@ echo "Running startup script"
 source /opt/ros/rolling/setup.bash
 source ros2_ws/install/setup.bash
 
-ros2 run motor_controller motor_controller_node &
 ros2 run i2c_pwm_board node &
+ros2 run motor_controller motor_controller_node &
+ros2 launch tm_imu imu.launch.py
 
-ros2 run teleop teleop_node
+# ros2 run teleop teleop_node

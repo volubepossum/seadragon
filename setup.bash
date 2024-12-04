@@ -25,9 +25,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 # Install necessary Python packages
-pip install numpy opencv-python colcon-common-extensions empy==3.3.4 lark readchar
-
-
+pip install numpy opencv-python colcon-common-extensions empy==3.3.4 lark inputs scipy sympy
 
 locale  # check for UTF-8
 
