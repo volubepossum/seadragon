@@ -48,13 +48,20 @@ class TeleopNode(Node):
     def handle_key(self, key, state):
         if key == "KEY_X" and state == 1:
             self.running = False
-        elif key in self.forward_keys and state == 1:
+        elif key in self.forward_keys: 
             motor_index = self.forward_keys.index(key)
-            self.thrust_values[motor_index] = self.forward_thrust
-        elif key in self.backward_keys and state == 1:
+            if state == 0:
+                self.thrust_values[motor_index] = 0.0
+            else:
+                self.thrust_values[motor_index] = self.forward_thrust
+        elif key in self.backward_keys:
             motor_index = self.backward_keys.index(key)
-            self.thrust_values[motor_index] = self.backward_thrust
-
+            if state == 0:
+                self.thrust_values[motor_index] = 0.0
+            else:
+                self.thrust_values[motor_index] = self.backward_thrust
+        elif key == "KEY_O" and state == 1:
+            self.thrust_values = [0.0,0.0,0.0,0.0,0.0]
         # Publish thrust values
         self.publish_thrust_values()
 
@@ -62,7 +69,7 @@ class TeleopNode(Node):
     def publish_thrust_values(self):
         msg = Motors()
         msg.motors = [
-            Motor(motor_id=i, thrust=val) for i, val in enumerate(self.thrust_values)
+            Motor(id=i, thrust=val) for i, val in enumerate(self.thrust_values)
         ]
         self.publisher_.publish(msg)    
 
