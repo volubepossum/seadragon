@@ -27,6 +27,7 @@ class MotorController(Node):
         )
 
         self.pwm_thrust_map = self.load_pwm_thrust_map(self.csv_file)
+        self.motor_directions = [-1, 1, -1, 1, 1]
 
         # Create the subscription and publisher
         self.publisher = self.create_publisher(ServoArray, "servos_absolute_1", 10)
@@ -36,7 +37,7 @@ class MotorController(Node):
         self.get_logger().info("Initializing ESCs...")
         sleep(3)
 
-        #create timer object to send 0 PWM value to all servos after inactivity
+        # create timer object to send 0 PWM value to all servos after inactivity
         self.timer = self.create_timer(0.2, self.send_0_pwm)
 
         self.subscription = self.create_subscription(
@@ -58,22 +59,20 @@ class MotorController(Node):
         for motor in motors:
             # Find the closest thrust value in the map
             closest_thrust = min(
-                self.pwm_thrust_map.keys(), key=lambda k: abs(k - motor.thrust)
+                self.pwm_thrust_map.keys(), key=lambda k: abs(k - motor.thrust*self.motor_directions[motor.id])
             )
             pwm = self.pwm_thrust_map[closest_thrust]
             self.get_logger().info(
                 f"Motor {motor.id} gets PWM value {pwm} for thrust {motor.thrust}"
             )
             self.publisher.publish(
-                ServoArray(servos=[Servo(servo=motor.id, value=pwm)])
+                ServoArray(servos=[Servo(servo=motor.id + 1, value=pwm)])
             )
         self.timer.reset()
 
     def send_0_pwm(self):
         initial_servo_array = ServoArray()
-        initial_servo_array.servos = [
-            Servo(servo=i + 1, value=0.0) for i in range(5)
-        ]
+        initial_servo_array.servos = [Servo(servo=i + 1, value=316.0) for i in range(5)]
         self.publisher.publish(initial_servo_array)
 
 
