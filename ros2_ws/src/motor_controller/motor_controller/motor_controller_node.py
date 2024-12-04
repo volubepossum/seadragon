@@ -72,7 +72,7 @@ class MotorController(Node):
 
     def send_0_pwm(self):
         initial_servo_array = ServoArray()
-        initial_servo_array.servos = [Servo(servo=i + 1, value=316.0) for i in range(5)]
+        initial_servo_array.servos = [Servo(servo=i + 1, value=self.pwm_thrust_map[0.0]) for i in range(5)]
         self.publisher.publish(initial_servo_array)
 
 
