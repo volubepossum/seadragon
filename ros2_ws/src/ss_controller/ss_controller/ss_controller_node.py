@@ -45,6 +45,10 @@ class SSControllerNode(Node):
             ),
         ]
 
+        self.x = []  # Initialize x as a list to store measurements
+        self.times = []  # Initialize times as a list to store measurement times
+        self.max_measurements = 5  # Define the number of measurements to store
+
         self.get_logger().info("Initializing controller")
         # Define physical parameters
         self.g = 9.81
@@ -134,6 +138,7 @@ class SSControllerNode(Node):
         self.get_logger().info("SS Controller Node has been started")
 
     def control(self):
+        self.state = self.extrapolate_data()
         u = -self.K @ self.Trans @ self.state + self.N @ (self.reference)
         # u = -self.K @ self.Trans @ self.state + self.N @ (self.reference - self.C * self.state) 
         # u = self.Trans_inv @ u
@@ -141,6 +146,18 @@ class SSControllerNode(Node):
             self.U.motors[i].thrust = u[i]
         # Publish motor commands
         self.motors_publisher.publish(self.U)
+
+    def extrapolate_data(self):
+        # Implement a simple extrapolation method (e.g., linear extrapolation)
+        if len(self.x) < 2:
+            return self.x[-1] if self.x else 0  # Return the last measurement or 0 if list is empty
+        else:
+            # Apply a low pass filter to the measurements
+            alpha = 0.1  # Low pass filter coefficient
+            filtered_state = np.zeros_like(self.x[0])
+            for i in range(1, len(self.x)):
+                filtered_state = alpha * self.x[i] + (1 - alpha) * filtered_state
+            return filtered_state
 
     def update_controller(self):
         success = False
@@ -287,9 +304,9 @@ class SSControllerNode(Node):
     def listener_callback(self, msg):
         # Update state based on IMU data
         # Integrate linear acceleration to get velocity
+        current_time = msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9
         x = np.zeros(14)
         x[13] = 1
-        current_time = msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9
         if hasattr(self, "previous_time"):
             dt = current_time - self.previous_time
             x[0] += (
@@ -297,27 +314,51 @@ class SSControllerNode(Node):
                 * (msg.linear_acceleration.x + self.previous_linear_acceleration_x)
                 * dt
             )
+            x[1] += (
+                0.5
+                * (msg.linear_acceleration.y + self.previous_linear_acceleration_y)
+                * dt
+            )
             x[2] += (
                 0.5
                 * (msg.linear_acceleration.z + self.previous_linear_acceleration_z)
                 * dt
             )
+            x[6] += 0.5 * (x[0] + self.previous_linear_velocity_x) * dt
+            x[7] += 0.5 * (x[1] + self.previous_linear_velocity_y) * dt
+            x[8] += 0.5 * (x[2] + self.previous_linear_velocity_z) * dt
         else:
             dt = 0
         self.previous_time = current_time
         self.previous_linear_acceleration_x = msg.linear_acceleration.x
+        self.previous_linear_acceleration_y = msg.linear_acceleration.y
         self.previous_linear_acceleration_z = msg.linear_acceleration.z + 1
+
+        self.previous_linear_velocity_x = x[0]
+        self.previous_linear_velocity_y = x[1]
+        self.previous_linear_velocity_z = x[2]
+
+        # Update linear velocity
+        
+
+        # Update angular velocity
         x[3] = msg.angular_velocity.x
         x[4] = msg.angular_velocity.y
         x[5] = msg.angular_velocity.z
+
+        # Update quaternion
         x[9] = msg.orientation.w
         x[10] = msg.orientation.x
         x[11] = msg.orientation.y
         x[12] = msg.orientation.z
 
-        # Low pass filter
-        self.state = self.state_alpha * x + (1 - self.state_alpha) * self.state
-        # self.get_logger().info("state:\n" + str(self.state))
+        # Add new measurement to the list
+        self.x.append(x)
+        self.times.append(self.get_clock().now().to_sec())
+        # Keep only the last 'max_measurements' measurements
+        if len(self.x) > self.max_measurements:
+            self.x.pop(0)
+            self.times.pop(0)
 
     def reference_callback(self, msg):
         self.reference = self.Trans @ np.array(msg.data)
