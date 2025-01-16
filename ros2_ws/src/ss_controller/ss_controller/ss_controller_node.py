@@ -146,6 +146,8 @@ class SSControllerNode(Node):
             self.U.motors[i].thrust = u[i]
         # Publish motor commands
         self.motors_publisher.publish(self.U)
+        
+        self.get_logger().info(f"Current state: {self.state}")
 
     def extrapolate_data(self):
         # Implement a simple extrapolation method (e.g., linear extrapolation)
