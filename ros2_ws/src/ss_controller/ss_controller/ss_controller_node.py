@@ -8,6 +8,7 @@ from std_msgs.msg import Float64MultiArray
 import numpy as np
 from scipy.linalg import solve_continuous_are
 import sympy as sp
+from tabulate import tabulate
 
 
 class SSControllerNode(Node):
@@ -19,7 +20,7 @@ class SSControllerNode(Node):
 
         self.get_logger().info("Initializing variables")
         self.state = np.zeros(
-            14
+            13
         )  # u, v, w, p, q, r, x, y, z qw, qx, qy, qz, extra_forces
         self.state[9] = 1
         self.state[10] = 0
@@ -28,10 +29,17 @@ class SSControllerNode(Node):
         # Normalize quaternion
         quat_norm = np.linalg.norm(self.state[9:13])
         self.state[9:13] /= quat_norm
-        self.state[13] = 1  # extra_forces coefficient
+
         self.state_alpha = 0.1
-        self.reference = np.zeros(10)  # u, v, w, p, q, r, qw, qx, qy, qz
-        self.reference[6] = 1  # qw
+        self.reference = np.zeros(5)  # z, qw, qx, qy, qz
+        self.reference[0] = 0.1  # z
+        self.reference[1] = 1  # qw
+        self.reference[2] = 0 # qx
+        self.reference[3] = 0  # qy
+        self.reference[4] = 1  # qz
+        # Normalize reference quaternion
+        ref_quat_norm = np.linalg.norm(self.reference[1:5])
+        self.reference[1:5] /= ref_quat_norm
         self.U = Motors()
         self.U.motors = [Motor(id=i) for i in range(5)]
 
@@ -111,19 +119,14 @@ class SSControllerNode(Node):
         self.G = sp.lambdify(nu_sym, G_sym, "numpy")
 
         # LQR gains
-        self.Q = np.eye(14) * 20
-        self.Q[1, 1] = 0
-        self.Q[6, 6] = 0
-        self.Q[7, 7] = 0
-        self.Q[8, 8] = 0
-        self.Q[13, 13] = 0
+        self.Q = np.eye(13) * 1
+        self.Q[8, 8] = 3
         if not np.all(np.linalg.eigvals(self.Q) >= 0):
             raise ValueError("Matrix Q is not positive semi-definite")
-        self.R = np.eye(5) * 0.1
+        self.R = np.eye(5) * 250
         if not np.all(np.linalg.eigvals(self.R) > 0):
             raise ValueError("Matrix R is not positive definite")
-        self.Trans = np.eye(14)
-        self.Trans_inv = np.eye(14)
+        self.Trans = self.T_inv = np.eye(13)
         self.K = np.zeros((self.F.shape[1], self.state.shape[0]))
         self.N = np.zeros((self.F.shape[1], self.reference.shape[0]))
         # start controller
@@ -137,44 +140,46 @@ class SSControllerNode(Node):
         self.control_timer = self.create_timer(self.control_period, self.control)
         self.get_logger().info("SS Controller Node has been started")
 
+        self.state_publisher = self.create_publisher(Float64MultiArray, "state", 10)
+
     def control(self):
         self.state = self.extrapolate_data()
+
+        self.state_publisher.publish(Float64MultiArray(data=self.state))
+        # self.get_logger().info(f"State: \n{self.state}")
+        # self.get_logger().info(f"K: \n{tabulate(self.K)}")
+        # self.get_logger().info(f"N: \n{tabulate(self.N)}")
+
+
+
         u = -self.K @ self.Trans @ self.state + self.N @ (self.reference)
-        # u = -self.K @ self.Trans @ self.state + self.N @ (self.reference - self.C * self.state) 
+        # u = -self.K @ self.Trans @ self.state + self.N @ (self.reference - self.C * self.state)
         # u = self.Trans_inv @ u
         for i in range(5):
             self.U.motors[i].thrust = u[i]
         # Publish motor commands
         self.motors_publisher.publish(self.U)
-        
-        self.get_logger().info(f"Current state: {self.state}")
+
+        # self.get_logger().info(f"Current state: \n{tabulate(self.state)}")
 
     def extrapolate_data(self):
         # Implement a simple extrapolation method (e.g., linear extrapolation)
-        if len(self.x) < 2:
-            return self.x[-1] if self.x else 0  # Return the last measurement or 0 if list is empty
-        else:
-            # Apply a low pass filter to the measurements
-            alpha = 0.1  # Low pass filter coefficient
-            filtered_state = np.zeros_like(self.x[0])
-            for i in range(1, len(self.x)):
-                filtered_state = alpha * self.x[i] + (1 - alpha) * filtered_state
-            return filtered_state
+        return self.x[-1] if len(self.x) > 0 else self.state
 
     def update_controller(self):
         success = False
         for _ in range(10):
+            A, B, self.C, self.Trans, self.Trans_inv, self.k = (
+                self.compute_state_space_matrices()
+            )
             try:
-                A, B, self.C, self.Trans, self.Trans_inv, self.k = (
-                    self.compute_state_space_matrices()
-                )
                 self.K, self.N = self.lqr(
-                    A[: self.k, : self.k],
-                    B[: self.k, :],
-                    self.C[:, : self.k],
-                    (self.Trans.transpose() @ self.Q @ self.Trans)[: self.k, : self.k],
+                    A[:self.k, :self.k],
+                    B[:self.k, :],
+                    self.C[:, :self.k],
+                    (self.Trans.T @ self.Q @ self.Trans)[: self.k, : self.k],
                     self.R,
-                )
+                )   
                 self.K = np.hstack(
                     (
                         self.K,
@@ -187,7 +192,7 @@ class SSControllerNode(Node):
                 # self.get_logger().info("LQR computation successful")
                 break
             except Exception as e:
-                self.get_logger().warn(str(e))
+                self.get_logger().warning(str(e))
                 pass
         if not success:
             self.get_logger().error("LQR computation failed.")
@@ -197,15 +202,13 @@ class SSControllerNode(Node):
         def smtrx(v):
             return np.array([[0, -v[2], v[1]], [v[2], 0, -v[0]], [-v[1], v[0], 0]])
 
-        x = self.Trans_inv @ self.state
+        x = self.state
         Centri = np.block(
             [
                 [self.m * smtrx(x[3:6]), np.zeros((3, 3))],
                 [np.zeros((3, 3)), -smtrx(self.I @ x[3:6])],
             ]
         )
-        G = self.G(*x[6:13])
-        g = self.g(*x[6:13]) - (G @ x[6:13]).reshape(-1, 1)
         R = np.array(
             [
                 [
@@ -237,56 +240,71 @@ class SSControllerNode(Node):
             [
                 [
                     self.M_inv @ (-Centri - self.D),
-                    self.M_inv @ G,
-                    self.M_inv @ g,
+                    np.zeros((6, 7)),
                 ],
                 [
                     R,
-                    np.zeros((3, 11)),
+                    np.zeros((3, 10)),
                 ],
                 [
                     np.zeros((4, 3)),
                     T,
-                    np.zeros((4, 8)),
+                    np.zeros((4, 7)),
                 ],
-                [np.zeros((1, 14))],
             ]
         )
         # B bottom should be zeros, but we are faking controlability
-        B = np.block([[self.M_inv @ self.Tau], [np.zeros((8, 5))]])
+        B = np.block([[self.M_inv @ self.Tau], [np.zeros((7, 5))]])
         C = np.block(
             [
-                [np.eye(6), np.zeros((6, 8))],
-                [np.zeros((4, 9)), np.eye(4), np.zeros((4, 1))],
+                [np.zeros((5, 8)), np.eye(5)],
             ]
         )
 
-        # Decompose the system into controllable and uncontrollable partss
-        # https://www.cim.mcgill.ca/~boulet/304-501A/L22.pdf
-        tol = 1e-6
-        n = A.shape[0]
-        Q = self.compute_controllability_matrix(A, B)
-        k = np.linalg.matrix_rank(Q)
-        Q, _ = np.linalg.qr(Q)
-        T = Q[:, :k]
-        T /= np.linalg.norm(T, axis=0)
-        while T.shape[1] < n:
-            orthogonal_vector = np.random.rand(n, 1)
-            orthogonal_vector -= T @ (T.T @ orthogonal_vector)
+        Tc = self.compute_controllability_matrix(A, B)
+        rank = np.linalg.matrix_rank(Tc, tol=None)
+
+        T = Tc[:, :1]
+        prev_rank = 1
+        for i in range(1, Tc.shape[1]):
+            T = np.hstack((T, Tc[:, i : i + 1]))
+            t_rank = np.linalg.matrix_rank(T, tol=None)
+            if t_rank >= rank:
+                break
+            if t_rank != prev_rank + 1:
+                T = T[:, :-1]
+            else:
+                prev_rank = t_rank
+
+        while t_rank < A.shape[0]:
+            orthogonal_vector = np.random.rand(A.shape[0], 1)
+            orthogonal_vector -= T @ np.linalg.pinv(T) @ orthogonal_vector
             orthogonal_vector /= np.linalg.norm(orthogonal_vector)
             T = np.hstack((T, orthogonal_vector))
-        T[np.abs(T) < tol] = 0
+            t_rank = np.linalg.matrix_rank(T, tol=None)
+        
+
         T_inv = np.linalg.inv(T)
-        T_inv[np.abs(T_inv) < tol] = 0
-        Abar = T @ A @ T_inv
-        Bbar = T @ B
-        Cbar = C @ T_inv
-        return Abar, Bbar, Cbar, T, T_inv, k
+        A_c = T_inv @ A @ T
+        B_c = T_inv @ B
+        C_c = C @ T
+
+        A_c[np.abs(A_c) < 1e-6] = 0
+        B_c[np.abs(B_c) < 1e-6] = 0
+        C_c[np.abs(C_c) < 1e-6] = 0
+
+        # self.get_logger().info(f"A_c: \n{tabulate(A_c)}")
+        # self.get_logger().info(f"B_c: \n{tabulate(B_c)}")
+        # self.get_logger().info(f"C_c: \n{tabulate(C_c)}")
+        # Determine the number of controllable states
+        k = rank
+
+        return A_c, B_c, C_c, T, T_inv, k
 
     def lqr(self, A, B, C, Q, R):
         P = solve_continuous_are(A, B, Q, R)
         K = np.linalg.inv(R) @ B.T @ P
-        N = -np.linalg.pinv(C @ np.linalg.inv(A - B @ K) @ B)
+        N = -np.linalg.pinv(C @ np.linalg.pinv(B @ K) @ B)
         return K, N
 
     def compute_controllability_matrix(self, A, B):
@@ -305,10 +323,35 @@ class SSControllerNode(Node):
 
     def listener_callback(self, msg):
         # Update state based on IMU data
-        # Integrate linear acceleration to get velocity
         current_time = msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9
-        x = np.zeros(14)
-        x[13] = 1
+        x = np.zeros(13)
+        # Update quaternion
+        x[9] = msg.orientation.w
+        x[10] = msg.orientation.x
+        x[11] = msg.orientation.y
+        x[12] = msg.orientation.z
+
+        R = np.array(
+            [
+                [
+                    1 - 2 * (x[11] ** 2 + x[12] ** 2),
+                    2 * (x[10] * x[11] - x[9] * x[12]),
+                    2 * (x[10] * x[12] + x[9] * x[11]),
+                ],
+                [
+                    2 * (x[10] * x[11] + x[9] * x[12]),
+                    1 - 2 * (x[10] ** 2 + x[12] ** 2),
+                    2 * (x[11] * x[12] - x[9] * x[10]),
+                ],
+                [
+                    2 * (x[10] * x[12] - x[9] * x[11]),
+                    2 * (x[11] * x[12] + x[9] * x[10]),
+                    1 - 2 * (x[10] ** 2 + x[11] ** 2),
+                ],
+            ]
+        )         
+
+        # Integrate linear acceleration to get velocity
         if hasattr(self, "previous_time"):
             dt = current_time - self.previous_time
             x[0] += (
@@ -326,9 +369,7 @@ class SSControllerNode(Node):
                 * (msg.linear_acceleration.z + self.previous_linear_acceleration_z)
                 * dt
             )
-            x[6] += 0.5 * (x[0] + self.previous_linear_velocity_x) * dt
-            x[7] += 0.5 * (x[1] + self.previous_linear_velocity_y) * dt
-            x[8] += 0.5 * (x[2] + self.previous_linear_velocity_z) * dt
+            x[6:9] = R @ np.array([x[0], x[1], x[2]])
         else:
             dt = 0
         self.previous_time = current_time
@@ -341,22 +382,16 @@ class SSControllerNode(Node):
         self.previous_linear_velocity_z = x[2]
 
         # Update linear velocity
-        
 
         # Update angular velocity
         x[3] = msg.angular_velocity.x
         x[4] = msg.angular_velocity.y
         x[5] = msg.angular_velocity.z
 
-        # Update quaternion
-        x[9] = msg.orientation.w
-        x[10] = msg.orientation.x
-        x[11] = msg.orientation.y
-        x[12] = msg.orientation.z
 
         # Add new measurement to the list
         self.x.append(x)
-        self.times.append(self.get_clock().now().to_sec())
+        self.times.append(current_time)
         # Keep only the last 'max_measurements' measurements
         if len(self.x) > self.max_measurements:
             self.x.pop(0)
