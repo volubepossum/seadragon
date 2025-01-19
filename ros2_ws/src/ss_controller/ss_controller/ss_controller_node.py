@@ -40,6 +40,7 @@ class SSControllerNode(Node):
         # Normalize reference quaternion
         ref_quat_norm = np.linalg.norm(self.reference[1:5])
         self.reference[1:5] /= ref_quat_norm
+
         self.U = Motors()
         self.U.motors = [Motor(id=i) for i in range(5)]
 
@@ -149,8 +150,6 @@ class SSControllerNode(Node):
         # self.get_logger().info(f"State: \n{self.state}")
         # self.get_logger().info(f"K: \n{tabulate(self.K)}")
         # self.get_logger().info(f"N: \n{tabulate(self.N)}")
-
-
 
         u = -self.K @ self.Trans @ self.state + self.N @ (self.reference)
         # u = -self.K @ self.Trans @ self.state + self.N @ (self.reference - self.C * self.state)
