@@ -4,9 +4,10 @@ import rclpy
 from rclpy.node import Node
 from motor_controller.msg import Motors, Motor
 from sensor_msgs.msg import Imu, MagneticField
-from std_msgs.msg import Float64MultiArray
+from std_msgs.msg import Float64MultiArray, Float64
 import numpy as np
 from scipy.linalg import solve_continuous_are
+from scipy.signal import detrend
 import sympy as sp
 from tabulate import tabulate
 
@@ -34,7 +35,7 @@ class SSControllerNode(Node):
         self.reference = np.zeros(5)  # z, qw, qx, qy, qz
         self.reference[0] = 0.1  # z
         self.reference[1] = 1  # qw
-        self.reference[2] = 0 # qx
+        self.reference[2] = 0  # qx
         self.reference[3] = 0  # qy
         self.reference[4] = 1  # qz
         # Normalize reference quaternion
@@ -51,11 +52,12 @@ class SSControllerNode(Node):
             self.create_subscription(
                 Float64MultiArray, "/reference", self.reference_callback, 10
             ),
+            self.create_subscription(Float64, "/distance", self.distance_callback, 10),
         ]
 
         self.x = []  # Initialize x as a list to store measurements
         self.times = []  # Initialize times as a list to store measurement times
-        self.max_measurements = 5  # Define the number of measurements to store
+        self.max_measurements = 200  # Define the number of measurements to store
 
         self.get_logger().info("Initializing controller")
         # Define physical parameters
@@ -143,14 +145,12 @@ class SSControllerNode(Node):
         self.state_publisher = self.create_publisher(Float64MultiArray, "state", 10)
 
     def control(self):
-        self.state = self.extrapolate_data()
+        self.extrapolate_data()
 
         self.state_publisher.publish(Float64MultiArray(data=self.state))
         # self.get_logger().info(f"State: \n{self.state}")
         # self.get_logger().info(f"K: \n{tabulate(self.K)}")
         # self.get_logger().info(f"N: \n{tabulate(self.N)}")
-
-
 
         u = -self.K @ self.Trans @ self.state + self.N @ (self.reference)
         # u = -self.K @ self.Trans @ self.state + self.N @ (self.reference - self.C * self.state)
@@ -163,8 +163,65 @@ class SSControllerNode(Node):
         # self.get_logger().info(f"Current state: \n{tabulate(self.state)}")
 
     def extrapolate_data(self):
-        # Implement a simple extrapolation method (e.g., linear extrapolation)
-        return self.x[-1] if len(self.x) > 0 else self.state
+        alpha = 0.1  # Low pass filter coefficient
+        if len(self.x) > 0:
+            orientation_values = np.array(
+                [
+                    [
+                        measurement[0].w,
+                        measurement[0].x,
+                        measurement[0].y,
+                        measurement[0].z,
+                    ]
+                    for measurement in self.x
+                ]
+            )
+            self.state[9:13] = np.average(
+                orientation_values,
+                axis=0,
+                weights=np.exp(-alpha * np.arange(len(orientation_values))[::-1]),
+            )
+            linear_acceleration_values = np.array(
+                [
+                    [measurement[1].x, measurement[1].y, measurement[1].z]
+                    for measurement in self.x
+                ]
+            )
+            detrended = detrend(linear_acceleration_values, axis=0)
+            self.state[0:3] += detrended[-1] * self.control_period
+            R = np.array(
+                [
+                    [
+                        1 - 2 * (self.state[11] ** 2 + self.state[12] ** 2),
+                        2 * (self.state[10] * self.state[11] - self.state[9] * self.state[12]),
+                        2 * (self.state[10] * self.state[12] + self.state[9] * self.state[11]),
+                    ],
+                    [
+                        2 * (self.state[10] * self.state[11] + self.state[9] * self.state[12]),
+                        1 - 2 * (self.state[10] ** 2 + self.state[12] ** 2),
+                        2 * (self.state[11] * self.state[12] - self.state[9] * self.state[10]),
+                    ],
+                    [
+                        2 * (self.state[10] * self.state[12] - self.state[9] * self.state[11]),
+                        2 * (self.state[11] * self.state[12] + self.state[9] * self.state[10]),
+                        1 - 2 * (self.state[10] ** 2 + self.state[11] ** 2),
+                    ],
+                ]
+            ).T
+            self.state[6:9] += R @ self.state[0:3] * self.control_period
+            rot_vel = np.array(
+                [
+                    [
+                        measurement[2].x,
+                        measurement[2].y,
+                        measurement[2].z,
+                    ]
+                    for measurement in self.x
+                ]
+            )
+            self.state[3:6] = np.average(
+                rot_vel, axis=0, weights=np.exp(-alpha * np.arange(len(rot_vel))[::-1])
+            )
 
     def update_controller(self):
         success = False
@@ -174,12 +231,12 @@ class SSControllerNode(Node):
             )
             try:
                 self.K, self.N = self.lqr(
-                    A[:self.k, :self.k],
-                    B[:self.k, :],
-                    self.C[:, :self.k],
+                    A[: self.k, : self.k],
+                    B[: self.k, :],
+                    self.C[:, : self.k],
                     (self.Trans.T @ self.Q @ self.Trans)[: self.k, : self.k],
                     self.R,
-                )   
+                )
                 self.K = np.hstack(
                     (
                         self.K,
@@ -282,7 +339,6 @@ class SSControllerNode(Node):
             orthogonal_vector /= np.linalg.norm(orthogonal_vector)
             T = np.hstack((T, orthogonal_vector))
             t_rank = np.linalg.matrix_rank(T, tol=None)
-        
 
         T_inv = np.linalg.inv(T)
         A_c = T_inv @ A @ T
@@ -324,73 +380,9 @@ class SSControllerNode(Node):
     def listener_callback(self, msg):
         # Update state based on IMU data
         current_time = msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9
-        x = np.zeros(13)
-        # Update quaternion
-        x[9] = msg.orientation.w
-        x[10] = msg.orientation.x
-        x[11] = msg.orientation.y
-        x[12] = msg.orientation.z
-
-        R = np.array(
-            [
-                [
-                    1 - 2 * (x[11] ** 2 + x[12] ** 2),
-                    2 * (x[10] * x[11] - x[9] * x[12]),
-                    2 * (x[10] * x[12] + x[9] * x[11]),
-                ],
-                [
-                    2 * (x[10] * x[11] + x[9] * x[12]),
-                    1 - 2 * (x[10] ** 2 + x[12] ** 2),
-                    2 * (x[11] * x[12] - x[9] * x[10]),
-                ],
-                [
-                    2 * (x[10] * x[12] - x[9] * x[11]),
-                    2 * (x[11] * x[12] + x[9] * x[10]),
-                    1 - 2 * (x[10] ** 2 + x[11] ** 2),
-                ],
-            ]
-        )         
-
-        # Integrate linear acceleration to get velocity
-        if hasattr(self, "previous_time"):
-            dt = current_time - self.previous_time
-            x[0] += (
-                0.5
-                * (msg.linear_acceleration.x + self.previous_linear_acceleration_x)
-                * dt
-            )
-            x[1] += (
-                0.5
-                * (msg.linear_acceleration.y + self.previous_linear_acceleration_y)
-                * dt
-            )
-            x[2] += (
-                0.5
-                * (msg.linear_acceleration.z + self.previous_linear_acceleration_z)
-                * dt
-            )
-            x[6:9] = R @ np.array([x[0], x[1], x[2]])
-        else:
-            dt = 0
-        self.previous_time = current_time
-        self.previous_linear_acceleration_x = msg.linear_acceleration.x
-        self.previous_linear_acceleration_y = msg.linear_acceleration.y
-        self.previous_linear_acceleration_z = msg.linear_acceleration.z + 1
-
-        self.previous_linear_velocity_x = x[0]
-        self.previous_linear_velocity_y = x[1]
-        self.previous_linear_velocity_z = x[2]
-
-        # Update linear velocity
-
-        # Update angular velocity
-        x[3] = msg.angular_velocity.x
-        x[4] = msg.angular_velocity.y
-        x[5] = msg.angular_velocity.z
-
 
         # Add new measurement to the list
-        self.x.append(x)
+        self.x.append([msg.orientation, msg.linear_acceleration, msg.angular_velocity])
         self.times.append(current_time)
         # Keep only the last 'max_measurements' measurements
         if len(self.x) > self.max_measurements:
@@ -399,6 +391,10 @@ class SSControllerNode(Node):
 
     def reference_callback(self, msg):
         self.reference = self.Trans @ np.array(msg.data)
+
+    def distance_callback(self, msg):
+        if self.state[10] < 0.1 and self.state[11] < 0.1:
+            self.state[8] = msg.data
 
 
 def main(args=None):
