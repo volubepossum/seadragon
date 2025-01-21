@@ -37,6 +37,9 @@ class ModelEstimatorNode(Node):
         )
         self.F = np.array([[0, 0, 1, 1, 0], [0, 0, 0, 0, 0], [-1, -1, 0, 0, -1]])
         self.Tau = np.vstack((self.F, np.linalg.cross(self.R, self.F, axis=0)))
+
+        self.state = np.zeros(13)
+        self.state[9] = 1  # Initialize quaternion to [1,0,0,0]
     
     def state_callback(self, msg) -> None:
         self.state = np.array(msg.data)
