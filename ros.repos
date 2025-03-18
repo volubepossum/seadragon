@@ -6,3 +6,9 @@ repositories:
     camera:
         type: git
         url: https://github.com/christianrauch/camera_ros.git
+    motor_controller:
+        type: git
+        url: https://github.com/volubepossum/seadragon-motor_controller.git
+    camera_distance:
+        type: git
+        url: https://github.com/volubepossum/seadragon-camera_laser_distance.git
