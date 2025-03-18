@@ -8,4 +8,6 @@ ros2_ws/install
 ros2_ws/log
 ros2_ws/src/i2c_pwm_board
 ros2_ws/src/camera
+ros2_ws/src/camera_distance
+ros2_ws/src/motor_controller
 rosbag2_*
