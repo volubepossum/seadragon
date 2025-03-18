@@ -12,14 +12,17 @@ setup(
     ],
     install_requires=['setuptools'],
     zip_safe=True,
-    maintainer='Your Name',
-    maintainer_email='your.email@example.com',
+    maintainer='Roland Domján',
+    maintainer_email='domj.roli@gmail.com',
     description='State feedback controller node for ROS2',
-    license='Apache License 2.0',
-    tests_require=['pytest'],
+    license='will do it later',
     entry_points={
         'console_scripts': [
-            'ss_controller_node = ss_controller.ss_controller_node:main',
+            'controller_maker_node = ss_controller.controller_maker_node:main',
+            'controller_node = ss_controller.controller_node:main',
+            'model_estimator_node = ss_controller.model_estimator_node:main',
+            'observer_maker_node = ss_controller.observer_maker_node:main',
+            'observer_node = ss_controller.observer_node:main',
         ],
     },
 )

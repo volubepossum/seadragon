@@ -2,7 +2,7 @@ servos:
   - servo: 1
     center: 316
     range: 170
-    direction: 1
+    direction: -1
   - servo: 2
     center: 316
     range: 170
@@ -10,7 +10,7 @@ servos:
   - servo: 3
     center: 316
     range: 170
-    direction: 1
+    direction: -1
   - servo: 4
     center: 316
     range: 170

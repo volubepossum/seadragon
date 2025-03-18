@@ -7,30 +7,39 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
 from std_msgs.msg import Float32
 
-# Define the green color range in HSV (adjust as needed)
-lower_green = np.array([40, 50, 50])
-upper_green = np.array([90, 255, 255])
-
-# Initialize contrast and brightness values
-alpha = 1  # Contrast control (1.0-3.0 or as needed)
-beta = 0     # Brightness control (optional, range -100 to 100)
-
-# Define the distance between camera and laser in meters
-rho = 0.083
-
-# Define the angle between the laser and the camera (in degrees)
-angle1 = 75  # Example angle, adjust based on your setup
-theta1 = math.radians(angle1)  # Convert angle to radians for trigonometry
-
-# Define the horizontal field of view angle (in degrees)
-FoV = 120  # Example value, adjust based on your camera's specifications
-angle2 = FoV/2 
-theta2 = math.radians(angle2)  # Convert to radians for trigonometry
-
-# Initialize the video capture object
 class ImageConverter(Node):
     def __init__(self):
         super().__init__('image_converter')
+        
+        # Declare and load parameters
+        self.declare_parameters(
+            namespace='',
+            parameters=[
+                ('green_color_range.lower', [40, 50, 50]),
+                ('green_color_range.upper', [90, 255, 255]),
+                ('image_adjustments.contrast', 1.0),
+                ('image_adjustments.brightness', 0),
+                ('distance_calculation.rho', 0.083),
+                ('distance_calculation.angle1', 75),
+                ('distance_calculation.fov', 120),
+            ]
+        )
+        
+        # Get parameters
+        self.lower_green = np.array(self.get_parameter('green_color_range.lower').value)
+        self.upper_green = np.array(self.get_parameter('green_color_range.upper').value)
+        self.alpha = self.get_parameter('image_adjustments.contrast').value
+        self.beta = self.get_parameter('image_adjustments.brightness').value
+        self.rho = self.get_parameter('distance_calculation.rho').value
+        self.angle1 = self.get_parameter('distance_calculation.angle1').value
+        self.FoV = self.get_parameter('distance_calculation.fov').value
+        
+        # Calculate derived parameters
+        self.theta1 = math.radians(self.angle1)
+        self.angle2 = self.FoV/2
+        self.theta2 = math.radians(self.angle2)
+        
+        # Initialize other variables
         self.bridge = CvBridge()
         self.cv_image = None
         self.processed_frame = None
@@ -41,7 +50,7 @@ class ImageConverter(Node):
             Image,
             '/camera/image_raw',  # Replace with your image topic
             self.image_callback,
-            10)  # QoS (Quality of Service) profile depth
+            10)  # QoS profile depth
 
     def image_callback(self, msg):
         try:
@@ -57,17 +66,16 @@ class ImageConverter(Node):
         self.distance_pub.publish(self.distance)
 
     def process_image(self, frame):
-        # Capture frame-by-frame
-        frame = image_converter.cv_image
+        # Use the frame passed as a parameter
         
         # Adjust contrast and brightness
-        adjusted_frame = cv2.convertScaleAbs(frame, alpha=alpha, beta=beta)
+        adjusted_frame = cv2.convertScaleAbs(frame, alpha=self.alpha, beta=self.beta)
         
         # Convert the frame to HSV color space
         hsv_frame = cv2.cvtColor(adjusted_frame, cv2.COLOR_BGR2HSV)
         
         # Create a mask to filter only green colors
-        green_mask = cv2.inRange(hsv_frame, lower_green, upper_green)
+        green_mask = cv2.inRange(hsv_frame, self.lower_green, self.upper_green)
         
         # Find contours in the mask
         contours, _ = cv2.findContours(green_mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
@@ -91,23 +99,25 @@ class ImageConverter(Node):
                 
                 # Calculate the distance from the camera using trigonometry and FoV
                 # Using cotangent for theta1
-                cot_theta1 = 1 / math.tan(theta1)
-                distance = rho / (math.tan(theta2 * delta / deltamax) + cot_theta1)
+                cot_theta1 = 1 / math.tan(self.theta1)
+                distance = self.rho / (math.tan(self.theta2 * delta / deltamax) + cot_theta1)
                 
                 # Display the position and calculated distance
                 cv2.putText(adjusted_frame, f"Position: {int(x)}, {int(y)}", (10, 30), 
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
                 cv2.putText(adjusted_frame, f"Distance: {distance:.2f} meters", (10, 60), 
                             cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
-        
-            # Display the frame with contrast adjustment and laser tracking
-            #    cv2.imshow('Laser Tracker (with Distance Calculation)', adjusted_frame)
+                
                 return distance, adjusted_frame
         return float('inf'), adjusted_frame
 
 
-if __name__ == '__main__':
+def main():
     rclpy.init()
     image_converter = ImageConverter()
     rclpy.spin(image_converter)
+    image_converter.destroy_node()
     rclpy.shutdown()
+
+if __name__ == '__main__':
+    main()
