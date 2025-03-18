@@ -14,7 +14,7 @@ def generate_launch_description():
         Node(
             package='image_processor',
             executable='image_processor_node',
-            name='image_converter',
+            name='distance_measurement',
             parameters=[config_file],
             output='screen',
         ),
