@@ -18,9 +18,9 @@ install(DIRECTORY
 
 # Install Python scripts
 install(PROGRAMS
-    ss_controller/ss_controller_node.py
+    ss_controller/controller_node.py
     DESTINATION lib/${PROJECT_NAME}
-    RENAME ss_controller_node
+    RENAME controller_node
 )
 
 ament_package()
