@@ -3,5 +3,6 @@
     "files.associations": {
         "bitset": "cpp",
         "string_view": "cpp"
-    }
+    },
+    "ros.distro": "rolling"
 }
